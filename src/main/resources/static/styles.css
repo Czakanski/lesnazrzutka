@@ -2,14 +2,14 @@
 
 /* ====== KOLORY ====== */
 :root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
+    --primary-color: #2d7a4a;
+    --secondary-color: #1e5631;
     --success-color: #4caf50;
     --error-color: #ff6b6b;
     --warning-color: #ffc107;
     --info-color: #2196f3;
-    --light-bg: #f8f9ff;
-    --border-color: #e0e0e0;
+    --light-bg: #e8f5e9;
+    --border-color: #a5d6a7;
 }
 
 /* ====== GENERAL STYLES ====== */
@@ -25,7 +25,7 @@ body {
 
 /* ====== HEADERS ====== */
 h1, h2, h3, h4, h5, h6 {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, #2d7a4a 0%, #1e5631 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -34,9 +34,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ====== BUTTONS ====== */
 vaadin-button {
-    --lumo-primary-color: #667eea;
-    --lumo-primary-color-50pct: rgba(102, 126, 234, 0.5);
-    --lumo-primary-color-10pct: rgba(102, 126, 234, 0.1);
+    --lumo-primary-color: #2d7a4a;
+    --lumo-primary-color-50pct: rgba(45, 122, 74, 0.5);
+    --lumo-primary-color-10pct: rgba(45, 122, 74, 0.1);
     --lumo-primary-text-color: white;
     --lumo-error-color: #ff6b6b;
     --lumo-success-color: #4caf50;
@@ -45,11 +45,11 @@ vaadin-button {
 
 vaadin-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 10px 20px rgba(45, 122, 74, 0.2);
 }
 
 vaadin-button[theme~="primary"] {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2d7a4a 0%, #1e5631 100%);
 }
 
 vaadin-button[theme~="error"] {
@@ -65,15 +65,15 @@ vaadin-text-field,
 vaadin-text-area,
 vaadin-number-field,
 vaadin-date-picker {
-    --lumo-primary-color: #667eea;
-    --lumo-primary-color-50pct: rgba(102, 126, 234, 0.5);
+    --lumo-primary-color: #2d7a4a;
+    --lumo-primary-color-50pct: rgba(45, 122, 74, 0.5);
 }
 
 vaadin-text-field[focused],
 vaadin-text-area[focused],
 vaadin-number-field[focused],
 vaadin-date-picker[focused] {
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1);
 }
 
 /* ====== PANELS & CARDS ====== */
@@ -111,12 +111,12 @@ vaadin-notification {
 
 /* ====== GRID STYLES ====== */
 vaadin-grid {
-    --lumo-primary-color: #667eea;
+    --lumo-primary-color: #2d7a4a;
     border-color: var(--border-color);
 }
 
 vaadin-grid::part(header-cell) {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(45, 122, 74, 0.05) 0%, rgba(30, 86, 49, 0.05) 100%);
     font-weight: 600;
     color: #333;
 }
@@ -126,7 +126,7 @@ vaadin-grid::part(body-cell) {
 }
 
 vaadin-grid::part(row):hover {
-    background: rgba(102, 126, 234, 0.05);
+    background: rgba(45, 122, 74, 0.05);
 }
 
 /* ====== DIALOG & OVERLAY ====== */
@@ -137,13 +137,13 @@ vaadin-dialog::part(overlay) {
 
 /* ====== TABS ====== */
 vaadin-tabs {
-    --lumo-primary-color: #667eea;
+    --lumo-primary-color: #2d7a4a;
     border-bottom: 2px solid var(--border-color);
 }
 
 vaadin-tabs::part(tab)[selected] {
-    color: #667eea;
-    border-bottom: 3px solid #667eea;
+    color: #2d7a4a;
+    border-bottom: 3px solid #2d7a4a;
 }
 
 /* ====== BADGES & LABELS ====== */
@@ -182,7 +182,7 @@ vaadin-tabs::part(tab)[selected] {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     margin-bottom: 20px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #2d7a4a;
 }
 
 .form-section h3 {
@@ -194,11 +194,11 @@ vaadin-tabs::part(tab)[selected] {
 
 /* ====== INFO BOXES ====== */
 .info-box {
-    background: linear-gradient(135deg, #f0f7ff 0%, #e8f2ff 100%);
-    border-left: 4px solid #667eea;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-left: 4px solid #2d7a4a;
     padding: 15px;
     border-radius: 4px;
-    border: 1px solid #d4e4ff;
+    border: 1px solid #a5d6a7;
 }
 
 .success-box {
@@ -223,19 +223,19 @@ vaadin-tabs::part(tab)[selected] {
 hr {
     border: none;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    background: linear-gradient(90deg, transparent, #2d7a4a, transparent);
     margin: 20px 0;
 }
 
 /* ====== LINKS ====== */
 a {
-    color: #667eea;
+    color: #2d7a4a;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 a:hover {
-    color: #764ba2;
+    color: #1e5631;
     text-decoration: underline;
 }
 
@@ -250,12 +250,12 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #667eea;
+    background: #2d7a4a;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #764ba2;
+    background: #1e5631;
 }
 
 /* ====== ANIMATIONS ====== */
