@@ -1,0 +1,13 @@
+import '@vaadin/vertical-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/button/src/vaadin-button.js';
+import '@vaadin/tooltip/src/vaadin-tooltip.js';
+import 'Frontend/generated/jar-resources/disableOnClickFunctions.js';
+import '@vaadin/icons/vaadin-iconset.js';
+import '@vaadin/icon/src/vaadin-icon.js';
+import '@vaadin/upload/src/vaadin-upload.js';
+import '@vaadin/text-field/src/vaadin-text-field.js';
+import '@vaadin/number-field/src/vaadin-number-field.js';
+import '@vaadin/text-area/src/vaadin-text-area.js';
+import '@vaadin/notification/src/vaadin-notification.js';
+import 'Frontend/generated/jar-resources/flow-component-renderer.js';
+import 'Frontend/generated/jar-resources/flow-component-directive.js';

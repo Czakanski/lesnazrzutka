@@ -6,6 +6,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -45,8 +46,8 @@ public class DashboardView extends VerticalLayout {
         // Top bar with title and logout button
         HorizontalLayout topBar = new HorizontalLayout();
         topBar.setWidthFull();
-        topBar.setAlignItems(Alignment.CENTER);
-        topBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
+        topBar.setAlignItems(FlexComponent.Alignment.CENTER);
+        topBar.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth != null ? auth.getName() : "Użytkownik";
