@@ -9,11 +9,6 @@ group = 'pl.ostropa'
 version = '0.0.1-SNAPSHOT'
 description = 'lesnazrzutka'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-}
 
 configurations {
     compileOnly {
