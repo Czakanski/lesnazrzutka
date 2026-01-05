@@ -1,4 +1,4 @@
-# 🌲 Les na Rzutka - System Zarządzania Wyciągami Bankowymi
+# 🌲 Leśna zrzutka - System Zarządzania Wyciągami Bankowymi
 
 Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi z banku Santander, zbudowana na Spring Boot i Vaadin.
 
@@ -371,6 +371,60 @@ git push heroku main
 docker build -t lesnazrzutka:latest .
 docker run -p 8080:8080 lesnazrzutka:latest
 ```
+
+## 🧪 Testy jednostkowe
+
+Projekt zawiera kompletny zestaw testów jednostkowych i integracyjnych.
+
+### Uruchomienie testów
+
+```bash
+# Uruchom wszystkie testy
+./gradlew test
+
+# Uruchom testy z raportami
+./gradlew test --info
+
+# Uruchom konkretny test
+./gradlew test --tests BankStatementServiceTest
+
+# Uruchom testy i pokaż raport
+./gradlew test && open build/reports/tests/test/index.html
+```
+
+### Testy dostępne:
+
+| Klasa | Testy | Opis |
+|-------|-------|------|
+| **BankStatementServiceTest** | 9 testów | Serwis zarządzania wyciągami |
+| **BankStatementRepositoryTest** | 14 testów | Dostęp do bazy danych |
+| **SecurityConfigTest** | 7 testów | Konfiguracja bezpieczeństwa |
+| **LoginControllerTest** | 10 testów | Kontroler logowania |
+| **BankStatementTest** | 15 testów | Model danych |
+| **LesnazrzutkaApplicationIntegrationTests** | 8 testów | Testy integracyjne |
+
+**Razem: 63 testy jednostkowe**
+
+### Pokrycie kodu
+
+```bash
+# Wygeneruj raport pokrycia
+./gradlew test jacocoTestReport
+
+# Otwórz raport HTML
+open build/reports/jacoco/test/html/index.html
+```
+
+### Testy obejmują:
+
+✅ Logowanie i autentykację
+✅ Dodawanie i edytowanie wyciągów
+✅ Pobieranie danych z bazy
+✅ Formatowanie sald i dat
+✅ Obsługę błędów
+✅ Walidację danych
+✅ Integrację Spring Security
+✅ Operacje JPA/Hibernate
 
 ## 🔧 Troubleshooting
 
