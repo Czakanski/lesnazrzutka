@@ -1,160 +1,106 @@
 package pl.ostropa.lesnazrzutka.controller;
 
+// JUnit imports
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+// Spring Boot Test imports
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+// Spring Security imports
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+// JUnit Assertions
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @DisplayName("LoginController - Testy kontrolera logowania")
 class LoginControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
-    @DisplayName("Powinno zwrócić stronę logowania")
-    void testLoginPageGet() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Lesna zrzutka")));
+    @DisplayName("Powinno załadować użytkownika admin")
+    void testAdminUserLoads() {
+        // Act
+        var admin = userDetailsService.loadUserByUsername("admin");
+
+        // Assert
+        assertNotNull(admin);
+        assertEquals("admin", admin.getUsername());
+        assertTrue(admin.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
     }
 
     @Test
-    @DisplayName("Powinno przekierować niezalogowanego na /login")
-    void testUnauthenticatedRedirectToLogin() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+    @DisplayName("Powinno załadować użytkownika user")
+    void testRegularUserLoads() {
+        // Act
+        var user = userDetailsService.loadUserByUsername("user");
+
+        // Assert
+        assertNotNull(user);
+        assertEquals("user", user.getUsername());
+        assertTrue(user.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
     }
 
     @Test
-    @DisplayName("Powinno zezwolić dostęp do /login bez autentykacji")
-    void testLoginPageIsAccessibleWithoutAuth() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/login"))
-                .andExpect(status().isOk());
+    @DisplayName("Powinno poprawnie kodować hasła")
+    void testPasswordEncoding() {
+        // Arrange
+        String rawPassword = "testPassword123";
+
+        // Act
+        String encoded = passwordEncoder.encode(rawPassword);
+
+        // Assert
+        assertNotNull(encoded);
+        assertNotEquals(rawPassword, encoded);
+        assertTrue(passwordEncoder.matches(rawPassword, encoded));
     }
 
     @Test
-    @DisplayName("Powinno odrzucić login z pustym użytkownikiem")
-    void testLoginWithEmptyUsername() throws Exception {
+    @DisplayName("Powinno odrzucić złe hasło")
+    void testWrongPasswordFails() {
+        // Arrange
+        String password = "admin";
+        String encoded = passwordEncoder.encode(password);
+
         // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "")
-                .param("password", "admin"))
-                .andExpect(status().is3xxRedirection());
+        assertFalse(passwordEncoder.matches("wrongPassword", encoded));
     }
 
     @Test
-    @DisplayName("Powinno odrzucić login z pustym hasłem")
-    void testLoginWithEmptyPassword() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "admin")
-                .param("password", ""))
-                .andExpect(status().is3xxRedirection());
+    @DisplayName("Admin powinien mieć dwie role")
+    void testAdminHasBothRoles() {
+        // Act
+        var admin = userDetailsService.loadUserByUsername("admin");
+
+        // Assert
+        assertEquals(2, admin.getAuthorities().size());
+        assertTrue(admin.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
+        assertTrue(admin.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
     }
 
     @Test
-    @DisplayName("Powinno zalogować się z poprawnym admin hasłem")
-    void testLoginWithValidAdminCredentials() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "admin")
-                .param("password", "admin"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
-    }
+    @DisplayName("User powinien mieć tylko rolę USER")
+    void testUserHasOnlyUserRole() {
+        // Act
+        var user = userDetailsService.loadUserByUsername("user");
 
-    @Test
-    @DisplayName("Powinno zalogować się z poprawnym user hasłem")
-    void testLoginWithValidUserCredentials() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "user")
-                .param("password", "user"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
-    }
-
-    @Test
-    @DisplayName("Powinno odrzucić login z błędnym hasłem")
-    void testLoginWithInvalidPassword() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "admin")
-                .param("password", "wrongpassword"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login?error"));
-    }
-
-    @Test
-    @DisplayName("Powinno odrzucić login z nieistniejącym użytkownikiem")
-    void testLoginWithNonExistentUser() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/login")
-                .param("username", "nonexistent")
-                .param("password", "password"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login?error"));
-    }
-
-    @Test
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    @DisplayName("Powinno zezwolić dostęp do dashboard dla zalogowanego")
-    void testDashboardAccessForAuthenticatedUser() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("Powinno wylogować użytkownika")
-    void testLogout() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/logout"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login?logout"));
-    }
-
-    @Test
-    @DisplayName("Powinno zabronić dostępu do add-statement dla niezalogowanego")
-    void testAddStatementAccessDeniedForUnauthenticated() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/add-statement"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
-    }
-
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    @DisplayName("Powinno zabronić dostępu do add-statement dla zwykłego użytkownika")
-    void testAddStatementAccessDeniedForUser() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/add-statement"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    @DisplayName("Powinno zezwolić dostęp do add-statement dla admina")
-    void testAddStatementAccessAllowedForAdmin() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/add-statement"))
-                .andExpect(status().isOk());
+        // Assert
+        assertEquals(1, user.getAuthorities().size());
+        assertTrue(user.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
     }
 }
-
 

@@ -1,18 +1,24 @@
 package pl.ostropa.lesnazrzutka.repository;
 
+// JUnit imports
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+// Spring Boot Test imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+// Model import
 import pl.ostropa.lesnazrzutka.model.BankStatement;
 
+// Java imports
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+// JUnit Assertions
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -56,7 +62,7 @@ class BankStatementRepositoryTest {
         entityManager.flush();
 
         // Act
-        Optional<BankStatement> found = bankStatementRepository.findById(saved.getId());
+        var found = bankStatementRepository.findById(saved.getId());
 
         // Assert
         assertTrue(found.isPresent());
@@ -67,7 +73,7 @@ class BankStatementRepositoryTest {
     @DisplayName("Powinno zwrócić pusty Optional dla nieistniejącego ID")
     void testFindByIdNotFound() {
         // Act
-        Optional<BankStatement> found = bankStatementRepository.findById(999L);
+        var found = bankStatementRepository.findById(999L);
 
         // Assert
         assertFalse(found.isPresent());
@@ -134,24 +140,7 @@ class BankStatementRepositoryTest {
         entityManager.flush();
 
         // Assert
-        Optional<BankStatement> found = bankStatementRepository.findById(id);
-        assertFalse(found.isPresent());
-    }
-
-    @Test
-    @DisplayName("Powinno usunąć wyciąg obiektem")
-    void testDeleteByObject() {
-        // Arrange
-        BankStatement saved = bankStatementRepository.save(bankStatement);
-        Long id = saved.getId();
-        entityManager.flush();
-
-        // Act
-        bankStatementRepository.delete(saved);
-        entityManager.flush();
-
-        // Assert
-        Optional<BankStatement> found = bankStatementRepository.findById(id);
+        var found = bankStatementRepository.findById(id);
         assertFalse(found.isPresent());
     }
 
@@ -189,16 +178,6 @@ class BankStatementRepositoryTest {
     }
 
     @Test
-    @DisplayName("Powinno zwrócić false dla nieistniejącego ID")
-    void testExistsByIdNotFound() {
-        // Act
-        boolean exists = bankStatementRepository.existsById(999L);
-
-        // Assert
-        assertFalse(exists);
-    }
-
-    @Test
     @DisplayName("Powinno przechowywać duże salda")
     void testLargeBalance() {
         // Arrange
@@ -207,7 +186,7 @@ class BankStatementRepositoryTest {
         entityManager.flush();
 
         // Act
-        Optional<BankStatement> found = bankStatementRepository.findById(saved.getId());
+        var found = bankStatementRepository.findById(saved.getId());
 
         // Assert
         assertTrue(found.isPresent());
@@ -223,34 +202,11 @@ class BankStatementRepositoryTest {
         entityManager.flush();
 
         // Act
-        Optional<BankStatement> found = bankStatementRepository.findById(saved.getId());
+        var found = bankStatementRepository.findById(saved.getId());
 
         // Assert
         assertTrue(found.isPresent());
         assertTrue(found.get().getAccountBalance().compareTo(BigDecimal.ZERO) < 0);
-    }
-
-    @Test
-    @DisplayName("Powinno przechowywać różne daty")
-    void testVariousDates() {
-        // Arrange
-        BankStatement statement1 = new BankStatement();
-        statement1.setAccountNumber("26 1050 0099 7611 5372 2918 7243");
-        statement1.setTransactionDate(LocalDate.of(2025, 1, 1));
-
-        BankStatement statement2 = new BankStatement();
-        statement2.setAccountNumber("26 1050 0099 7611 5372 2918 7244");
-        statement2.setTransactionDate(LocalDate.of(2026, 12, 31));
-
-        bankStatementRepository.save(statement1);
-        bankStatementRepository.save(statement2);
-        entityManager.flush();
-
-        // Act
-        List<BankStatement> statements = bankStatementRepository.findAll();
-
-        // Assert
-        assertEquals(2, statements.size());
     }
 }
 

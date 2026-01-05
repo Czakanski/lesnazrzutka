@@ -1,14 +1,20 @@
 package pl.ostropa.lesnazrzutka.config;
 
+// JUnit imports
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+// Spring Boot Test imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
+
+// Spring Security imports
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// JUnit Assertions
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,30 +31,26 @@ class SecurityConfigTest {
     @DisplayName("Powinno załadować użytkownika admin")
     void testLoadAdminUser() {
         // Act
-        UserDetails admin = userDetailsService.loadUserByUsername("admin");
+        var admin = userDetailsService.loadUserByUsername("admin");
 
         // Assert
         assertNotNull(admin);
         assertEquals("admin", admin.getUsername());
         assertTrue(admin.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
-        assertTrue(admin.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
     }
 
     @Test
     @DisplayName("Powinno załadować użytkownika user")
     void testLoadUserUser() {
         // Act
-        UserDetails user = userDetailsService.loadUserByUsername("user");
+        var user = userDetailsService.loadUserByUsername("user");
 
         // Assert
         assertNotNull(user);
         assertEquals("user", user.getUsername());
         assertTrue(user.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
-        assertFalse(user.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
     }
 
     @Test
@@ -91,7 +93,7 @@ class SecurityConfigTest {
     @DisplayName("Powinno mieć włączone konto admin")
     void testAdminUserEnabled() {
         // Act
-        UserDetails admin = userDetailsService.loadUserByUsername("admin");
+        var admin = userDetailsService.loadUserByUsername("admin");
 
         // Assert
         assertTrue(admin.isEnabled());
@@ -104,7 +106,7 @@ class SecurityConfigTest {
     @DisplayName("Powinno mieć włączone konto user")
     void testUserUserEnabled() {
         // Act
-        UserDetails user = userDetailsService.loadUserByUsername("user");
+        var user = userDetailsService.loadUserByUsername("user");
 
         // Assert
         assertTrue(user.isEnabled());
