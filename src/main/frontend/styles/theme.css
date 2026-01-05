@@ -1,0 +1,37 @@
+/* Les na Rzutka Theme - CSS Variables */
+
+:host {
+    --primary: #667eea;
+    --primary-dark: #764ba2;
+    --primary-light: #8b9fff;
+
+    --success: #4caf50;
+    --success-dark: #388e3c;
+
+    --error: #ff6b6b;
+    --error-dark: #ee5a6f;
+
+    --warning: #ffc107;
+    --warning-dark: #ff9800;
+
+    --info: #2196f3;
+    --info-dark: #1976d2;
+
+    --light-bg: #f8f9ff;
+    --light-border: #e0e0e0;
+
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #999999;
+}
+
+/* Apply to Vaadin components */
+html {
+    --lumo-primary-color: var(--primary);
+    --lumo-primary-color-50pct: rgba(102, 126, 234, 0.5);
+    --lumo-primary-color-10pct: rgba(102, 126, 234, 0.1);
+    --lumo-error-color: var(--error);
+    --lumo-success-color: var(--success);
+    --lumo-contrast-color: var(--text-primary);
+}
+
