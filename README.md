@@ -1,4 +1,4 @@
-# 🌲 Les na Rzutka - System Zarządzania Wyciągami Bankowymi
+# 🌲 Leśns zrzutka - System Zarządzania Wyciągami Bankowymi
 
 Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na Spring Boot i Vaadin.
 
