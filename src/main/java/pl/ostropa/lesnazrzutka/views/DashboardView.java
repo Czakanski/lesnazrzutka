@@ -13,6 +13,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
 import pl.ostropa.lesnazrzutka.service.BankStatementService;
 
 import java.text.NumberFormat;
@@ -103,6 +104,12 @@ public class DashboardView extends VerticalLayout {
         H2 title = new H2("⚙️ Akcje");
         title.getStyle().set("margin-top", "0");
 
+        // Sprawdź czy użytkownik ma rolę ADMIN
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_ADMIN"));
+
         Button addStatementButton = new Button("Dodaj Wyciąg Bankowy");
         addStatementButton.setIcon(VaadinIcon.PLUS.create());
         addStatementButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -110,6 +117,9 @@ public class DashboardView extends VerticalLayout {
         addStatementButton.addClickListener(event ->
             getUI().ifPresent(ui -> ui.navigate("add-statement"))
         );
+
+        // Ukryj przycisk dla użytkowników bez roli ADMIN
+        addStatementButton.setVisible(isAdmin);
 
         Button viewHistoryButton = new Button("Przeglądaj Historię");
         viewHistoryButton.setIcon(VaadinIcon.LIST.create());

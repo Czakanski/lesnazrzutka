@@ -128,5 +128,33 @@ class LoginControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login?logout"));
     }
+
+    @Test
+    @DisplayName("Powinno zabronić dostępu do add-statement dla niezalogowanego")
+    void testAddStatementAccessDeniedForUnauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/add-statement"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    @DisplayName("Powinno zabronić dostępu do add-statement dla zwykłego użytkownika")
+    void testAddStatementAccessDeniedForUser() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/add-statement"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    @DisplayName("Powinno zezwolić dostęp do add-statement dla admina")
+    void testAddStatementAccessAllowedForAdmin() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/add-statement"))
+                .andExpect(status().isOk());
+    }
 }
+
 

@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.annotation.Secured;
 import pl.ostropa.lesnazrzutka.model.BankStatement;
 import pl.ostropa.lesnazrzutka.service.BankStatementService;
 
@@ -24,6 +25,7 @@ import java.io.InputStream;
 
 @Route("add-statement")
 @PageTitle("Dodaj Wyciąg Bankowy")
+@Secured("ROLE_ADMIN")
 @Slf4j
 @SuppressWarnings("removal")
 public class AddBankStatementView extends VerticalLayout {

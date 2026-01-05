@@ -1,4 +1,4 @@
-# 🌲 Leśns zrzutka - System Zarządzania Wyciągami Bankowymi
+# 🌲 Leśna zrzutka - System Zarządzania Wyciągami Bankowymi
 
 Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na Spring Boot i Vaadin.
 
@@ -28,6 +28,7 @@ Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na S
 
 - 🎨 **Nowoczesny interfejs** - Responsywny design dostosowany do urządzeń mobilnych
 - 🔐 **Bezpieczeństwo** - Uwierzytelnianie Spring Security z szyfrowaniem haseł BCrypt
+- 👮 **Kontrola dostępu** - Funkcje administratora dostępne tylko dla użytkowników z rolą ADMIN
 - 💾 **Baza danych** - H2 in-memory do testów / PostgreSQL do produkcji
 - 🚀 **Wydajność** - Zoptymalizowana aplikacja Spring Boot
 - 📊 **Wizualizacja** - Czytelne wykresy i tabele sald
@@ -150,8 +151,8 @@ Wpisz dane logowania i kliknij **"Zaloguj się"**
 
 #### Czy zalogowuję się jako admin czy user?
 
-- **Admin** - Pełny dostęp do systemu, może zarządzać wszystkimi wyciągami
-- **User** - Podstawowy dostęp, może przeglądać własne wyciągi
+- **Admin** - Pełny dostęp do systemu, może zarządzać wszystkimi wyciągami i dodawać nowe
+- **User** - Podstawowy dostęp, może przeglądać wyciągi (przycisk dodawania jest ukryty)
 
 ### 2️⃣ Dashboard (Główny ekran)
 
@@ -170,10 +171,11 @@ Po zalogowaniu trafiasz na **Dashboard** z dwoma panelami:
 
 **Opcje:**
 
-1. **Dodaj Wyciąg Bankowy** 
+1. **Dodaj Wyciąg Bankowy** ⚠️ *Tylko dla adminów*
    - Otwiera formularz do dodawania nowego wyciągu
    - Wgrywaj pliki .csv, .xlsx lub .pdf
    - System automatycznie wyodrębnia dane
+   - **Niedostępne dla zwykłych użytkowników**
 
 2. **Przeglądaj Historię**
    - Widok wszystkich wrzuconych wyciągów
@@ -296,6 +298,39 @@ UserDetails admin = User.builder()
     .password(passwordEncoder.encode("TWOJE_NOWE_HASŁO"))  // ← tutaj
     .roles("ADMIN", "USER")
     .build();
+```
+
+## 👮 Kontrola dostępu (RBAC)
+
+Aplikacja implementuje Role-Based Access Control (RBAC):
+
+### Uprawnienia adminów:
+- ✅ Dodawanie nowych wyciągów bankowych
+- ✅ Edytowanie istniejących wyciągów
+- ✅ Usuwanie wyciągów
+- ✅ Przeglądanie historii wszystkich operacji
+- ✅ Zarządzanie kontami
+
+### Uprawnienia zwykłych użytkowników:
+- ✅ Przeglądanie wyciągów
+- ✅ Przeglądanie sald
+- ✅ Dostęp do historii
+- ❌ Dodawanie nowych wyciągów (ukryty przycisk)
+- ❌ Edytowanie wyciągów
+- ❌ Usuwanie wyciągów
+
+### Jak działa zabezpieczenie?
+
+1. **Na poziomie widoku** - Przycisk "Dodaj Wyciąg" jest ukryty dla użytkowników bez roli ADMIN
+2. **Na poziomie kontrolera** - Strona `/add-statement` zwraca 403 Forbidden dla użytkowników bez ROLE_ADMIN
+3. **Na poziomie bazy** - Niektóre operacje mogą być ograniczone na poziomie serwisu
+
+```java
+// Przykład z SecurityConfig.java
+@Secured("ROLE_ADMIN")  // Tylko admini mogą otworzyć ten widok
+public class AddBankStatementView extends VerticalLayout {
+    // ...
+}
 ```
 
 ## 📂 Struktura projektu
