@@ -159,7 +159,7 @@ public class AddBankStatementView extends VerticalLayout {
         statement.setFileContent(fileBytes);
         statement.setFileSize((long) fileBytes.length);
         statement.setFileType("application/pdf"); // Default type
-        statement.setBankName("Santander");
+        statement.setBankName("Bank");
         statement.setAccountNumber(accountNumberField.getValue());
         statement.setAccountBalance(balanceField.getValue());
         statement.setDescription(descriptionField.getValue().isEmpty() ? null : descriptionField.getValue());

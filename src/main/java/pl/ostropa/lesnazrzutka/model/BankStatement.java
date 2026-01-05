@@ -25,7 +25,7 @@ public class BankStatement {
     private String fileName;
 
     @Column(nullable = false)
-    private String bankName = "Santander";
+    private String bankName = "Bank";
 
     @Column(columnDefinition = "LONGBLOB")
     private byte[] fileContent;

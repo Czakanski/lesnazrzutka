@@ -1,6 +1,6 @@
-# 🌲 Leśna zrzutka - System Zarządzania Wyciągami Bankowymi
+# 🌲 Les na Rzutka - System Zarządzania Wyciągami Bankowymi
 
-Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi z banku Santander, zbudowana na Spring Boot i Vaadin.
+Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na Spring Boot i Vaadin.
 
 ## 📋 Spis treści
 
@@ -16,7 +16,7 @@ Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi z banku Santand
 
 ## 📱 Opis aplikacji
 
-**Les na Rzutka** to system do zarządzania wyciągami bankowymi z Santandera. Umożliwia:
+**Les na Rzutka** to system do zarządzania wyciągami bankowymi. Umożliwia:
 
 ✅ Bezpieczne logowanie użytkowników
 ✅ Dodawanie i przeglądanie wyciągów bankowych
@@ -227,7 +227,7 @@ Otworzy się formularz z polami:
 
 #### Krok 3: Uzupełnij dane
 
-- **Numer konta** - 26-cyfrowy numer konta Santander
+- **Numer konta** - 26-cyfrowy numer konta bankowego
 - **Data wyciągu** - Data z którą wyciąg ma być powiązany
 
 #### Krok 4: Kliknij DODAJ

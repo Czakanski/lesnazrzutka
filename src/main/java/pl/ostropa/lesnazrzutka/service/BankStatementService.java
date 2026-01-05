@@ -27,8 +27,8 @@ public class BankStatementService {
         return bankStatementRepository.findAll();
     }
 
-    public List<BankStatement> getSantanderStatements() {
-        return bankStatementRepository.findByBankName("Santander");
+    public List<BankStatement> getAllStatements() {
+        return bankStatementRepository.findAll();
     }
 
     public List<BankStatement> getStatementsByUser(String username) {

@@ -27,7 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Route("history")
-@PageTitle("Historia Wyciągów Santander")
+@PageTitle("Historia Wyciągów Bankowych")
 @Slf4j
 @SuppressWarnings("removal")
 public class BankStatementUploadView extends VerticalLayout {
@@ -44,7 +44,7 @@ public class BankStatementUploadView extends VerticalLayout {
         setSizeFull();
 
         // Header
-        add(new H1("📋 Wrzucanie Wyciągów z Banku Santander"));
+        add(new H1("📋 Wrzucanie Wyciągów Bankowych"));
 
         // Upload section
         add(createUploadSection());
@@ -98,7 +98,7 @@ public class BankStatementUploadView extends VerticalLayout {
                 statement.setFileContent(fileBytes);
                 statement.setFileSize((long) fileBytes.length);
                 statement.setFileType(event.getMIMEType());
-                statement.setBankName("Santander");
+                statement.setBankName("Bank");
                 statement.setDescription(description.getValue().isEmpty() ? null : description.getValue());
 
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -126,7 +126,7 @@ public class BankStatementUploadView extends VerticalLayout {
         uploadLayout.setWidthFull();
 
         section.add(
-                new Paragraph("Wrzuć wyciąg z banku Santander. Obsługiwane formaty: PDF, CSV, XLS, XLSX (maks. 10MB)"),
+                new Paragraph("Wrzuć wyciąg bankowy. Obsługiwane formaty: PDF, CSV, XLS, XLSX (maks. 10MB)"),
                 uploadLayout,
                 description
         );

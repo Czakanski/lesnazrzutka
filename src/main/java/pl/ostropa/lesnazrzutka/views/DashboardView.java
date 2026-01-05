@@ -66,7 +66,7 @@ public class DashboardView extends VerticalLayout {
 
         topBar.add(title, logoutButton);
 
-        Paragraph subtitle = new Paragraph("Witaj, " + username + "! Tutaj możesz zarządzać wyciągami z banku Santander.");
+        Paragraph subtitle = new Paragraph("Witaj, " + username + "! Tutaj możesz zarządzać wyciągami bankowymi.");
         subtitle.getStyle().set("color", "#666").set("font-size", "14px").set("margin", "0");
 
         header.add(topBar, subtitle);
