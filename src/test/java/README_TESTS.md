@@ -1,6 +1,6 @@
-# 🧪 Testy Jednostkowe - Les na Rzutka
+# 🧪 Testy Jednostkowe - Lesna zrzutka
 
-Dokumentacja kompletnego zestawu testów jednostkowych i integracyjnych dla projektu Les na Rzutka.
+Dokumentacja kompletnego zestawu testów jednostkowych i integracyjnych dla projektu Lesna zrzutka.
 
 ## 📊 Podsumowanie testów
 

@@ -16,7 +16,7 @@ Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na S
 
 ## 📱 Opis aplikacji
 
-**Les na Rzutka** to system do zarządzania wyciągami bankowymi. Umożliwia:
+**Lesna zrzutka** to system do zarządzania wyciągami bankowymi. Umożliwia:
 
 ✅ Bezpieczne logowanie użytkowników
 ✅ Dodawanie i przeglądanie wyciągów bankowych
@@ -515,5 +515,5 @@ Projekt jest licencjonowany na licencji MIT. Szczegóły w pliku `LICENSE`.
 
 **Status:** ✅ Production Ready (Gotowy do produkcji)
 
-Dziękujemy za korzystanie z **Les na Rzutka**! 🌲
+Dziękujemy za korzystanie z **Lesna zrzutka**! 🌲
 

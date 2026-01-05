@@ -1,4 +1,4 @@
-# 🎨 Kolorowy Design - Les na Rzutka
+# 🎨 Kolorowy Design - Lesna zrzutka
 
 ## ✨ Co zostało dodane
 
@@ -138,7 +138,7 @@ Wszystkie style są responsive:
 ┌─────────────────────────────────────┐
 │  [PURPLE GRADIENT BACKGROUND]       │
 │  ┌─────────────────────────────────┐│
-│  │ 🌲 Les na Rzutka 🌲             ││
+│  │ 🌲 Lesna zrzutka 🌲             ││
 │  │ [SUBTLE FOREST ASCII ART]       ││
 │  ├──────────────┬──────────────────┤│
 │  │              │ [Username Input]  ││

@@ -27,7 +27,7 @@ class LoginControllerTest {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Les na Rzutka")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Lesna zrzutka")));
     }
 
     @Test

@@ -1,4 +1,4 @@
-# 🌲 Zielone Kolory i ASCII Drzewa - Les na Rzutka
+# 🌲 Zielone Kolory i ASCII Drzewa - Lesna zrzutka
 
 ## ✨ Co zostało zmienione
 
@@ -103,7 +103,7 @@ Dodane piękne ASCII drzewa w login page:
     ║  ║   ║   ║   ║
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  🌳 Les na Rzutka - Zarządzanie 🌳
+  🌳 Lesna zrzutka - Zarządzanie 🌳
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
@@ -114,7 +114,7 @@ Dodane piękne ASCII drzewa w login page:
 ┌─────────────────────────────────────┐
 │  [ZIELONY GRADIENT BACKGROUND]      │
 │  ┌─────────────────────────────────┐│
-│  │ 🌲 Les na Rzutka 🌲             ││ ← Zielony gradient text
+│  │ 🌲 Lesna zrzutka 🌲             ││ ← Zielony gradient text
 │  │ [ZIELONE ASCII DRZEWA]          ││
 │  ├──────────────┬──────────────────┤│
 │  │              │ [Username Input]  ││ ← Zielony focus
@@ -148,7 +148,7 @@ Całe kolory zostały zmienione na **zielony motyw leśny**:
 - Akcenty: Ciemne zieleni
 - Fokus: Jaśniejsze zieleni
 
-Tworzuje to harmonijny, "leśny" design który doskonale pasuje do nazwy **"Les na Rzutka"** (Leśna Rzutka)!
+Tworzuje to harmonijny, "leśny" design który doskonale pasuje do nazwy **"Lesna zrzutka"** (Leśna Rzutka)!
 
 ## ✅ Zmienione komponenty
 
