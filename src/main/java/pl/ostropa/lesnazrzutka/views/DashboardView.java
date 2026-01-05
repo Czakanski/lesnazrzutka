@@ -42,14 +42,33 @@ public class DashboardView extends VerticalLayout {
         header.setSpacing(false);
         header.setPadding(false);
 
+        // Top bar with title and logout button
+        HorizontalLayout topBar = new HorizontalLayout();
+        topBar.setWidthFull();
+        topBar.setAlignItems(Alignment.CENTER);
+        topBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth != null ? auth.getName() : "Użytkownik";
 
         H1 title = new H1("📊 Zarządzanie Wyciągami Bankowymi");
-        Paragraph subtitle = new Paragraph("Witaj, " + username + "! Tutaj możesz zarządzać wyciągami z banku Santander.");
-        subtitle.getStyle().set("color", "#666").set("font-size", "14px");
+        title.getStyle().set("margin", "0");
 
-        header.add(title, subtitle);
+        // Logout button
+        Button logoutButton = new Button("Wyloguj się");
+        logoutButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
+        logoutButton.addClickListener(event -> {
+            getUI().ifPresent(ui -> {
+                ui.getPage().setLocation("/logout");
+            });
+        });
+
+        topBar.add(title, logoutButton);
+
+        Paragraph subtitle = new Paragraph("Witaj, " + username + "! Tutaj możesz zarządzać wyciągami z banku Santander.");
+        subtitle.getStyle().set("color", "#666").set("font-size", "14px").set("margin", "0");
+
+        header.add(topBar, subtitle);
         return header;
     }
 

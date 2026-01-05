@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - Les na Rzutka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .forest-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .forest-art {
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        .login-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-form .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-form button:active {
+            transform: translateY(0);
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            color: #333;
+            margin: 0;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-box .account {
+            color: #666;
+            margin: 4px 0;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .error {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .forest-panel {
+                min-height: 200px;
+                order: 2;
+            }
+
+            .login-panel {
+                order: 1;
+            }
+
+            .forest-art {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="forest-panel">
+            <div class="forest-art">    🌲        🌲           🌲
+   /|\       /|\         /|\
+  / | \     / | \       / | \
+   🌲      🌲    🌲    🌲
+  /|\    /|\   /|\   /|\
+ / | \  / | \ / | \ / | \
+              🌲
+             /|\
+            / | \
+    🌲   🌲  🌲   🌲  🌲
+   /|\  /|\ /|\ /|\ /|\
+  / | \/ | X | X | \/ | \
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Les na Rzutka - Zarządzanie Wyciągami
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            </div>
+        </div>
+
+        <div class="login-panel">
+            <form class="login-form" method="post" action="/login">
+                <h2>🌲 Les na Rzutka 🌲</h2>
+                <p class="subtitle">System Zarządzania Wyciągami Bankowymi</p>
+
+                <div th:if="${param.error}" class="error">
+                    Błędna nazwa użytkownika lub hasło
+                </div>
+                <div th:if="${param.logout}" class="error" style="background: #e8f5e9; color: #2e7d32; border-left-color: #4caf50;">
+                    Zostałeś wylogowany
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Nazwa użytkownika</label>
+                    <input type="text" id="username" name="username" placeholder="np. admin" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Hasło</label>
+                    <input type="password" id="password" name="password" placeholder="Wpisz hasło" required>
+                </div>
+
+                <button type="submit">Zaloguj się</button>
+
+                <div class="info-box">
+                    <p>👤 Konta demo:</p>
+                    <div class="account">admin / admin (Administrator)</div>
+                    <div class="account">user / user (Użytkownik)</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Animacja na załadowaniu
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.animation = 'slideIn 0.6s ease-out';
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Focus na input polu
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>
+
