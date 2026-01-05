@@ -1,6 +1,5 @@
 {
   "build": {
-    "builder": "gradle",
     "buildCommand": "./gradlew clean build -x test"
   },
   "start": {
