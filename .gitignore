@@ -1,0 +1,59 @@
+# Gradle
+.gradle/
+build/
+gradle/
+*.gradle.kts
+gradlew
+gradlew.bat
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Java
+*.class
+*.jar
+*.jar.sha1
+*.jar.sha256
+target/
+
+# Maven
+pom.xml.tag
+pom.xml.asc
+pom.xml.versionsBackup
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# Node modules (Vaadin frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Vaadin
+frontend/generated/
+src/main/webapp/VAADIN/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
