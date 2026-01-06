@@ -195,7 +195,7 @@ public class BankStatementParser {
             return LocalDateTime.parse(dateString + " 00:00:00", DATETIME_FORMATTER);
         } catch (Exception e) {
             try {
-                return LocalDateTime.parse(dateString, DATE_FORMATTER).atStartOfDay();
+                return java.time.LocalDate.parse(dateString, DATE_FORMATTER).atStartOfDay();
             } catch (Exception ex) {
                 logger.warn("Nie można sparsować daty: {}", dateString);
                 return LocalDateTime.now();
