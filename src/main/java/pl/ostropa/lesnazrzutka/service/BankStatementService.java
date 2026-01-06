@@ -2,19 +2,26 @@ package pl.ostropa.lesnazrzutka.service;
 
 import org.springframework.stereotype.Service;
 import pl.ostropa.lesnazrzutka.model.BankStatement;
+import pl.ostropa.lesnazrzutka.model.Transaction;
 import pl.ostropa.lesnazrzutka.repository.BankStatementRepository;
+import pl.ostropa.lesnazrzutka.logging.AppLogger;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unused")
 @Service
 public class BankStatementService {
 
+    private static final AppLogger logger = AppLogger.getLogger(BankStatementService.class);
     private final BankStatementRepository bankStatementRepository;
+    private final TransactionService transactionService;
 
-    public BankStatementService(BankStatementRepository bankStatementRepository) {
+    public BankStatementService(BankStatementRepository bankStatementRepository,
+                                TransactionService transactionService) {
         this.bankStatementRepository = bankStatementRepository;
+        this.transactionService = transactionService;
     }
 
     public BankStatement saveBankStatement(BankStatement statement) {
@@ -58,5 +65,59 @@ public class BankStatementService {
         }
         return null;
     }
+
+    /**
+     * Importuje transakcje z wrzuconego wyciągu bankowego
+     * @param statementId ID wyciągu
+     * @return Lista zaimportowanych transakcji
+     */
+    public List<Transaction> importTransactionsFromStatement(Long statementId) {
+        try {
+            BankStatement statement = getBankStatementById(statementId);
+            if (statement == null) {
+                logger.business().warn("Wyciąg o ID {} nie znaleziony", statementId);
+                return List.of();
+            }
+
+            // Parsuj transakcje z zawartości wyciągu
+            List<Transaction> transactions = BankStatementParser.parseTransactions(statement);
+
+            // Zapisz wszystkie transakcje do bazy
+            List<Transaction> savedTransactions = new ArrayList<>();
+            for (Transaction transaction : transactions) {
+                try {
+                    Transaction saved = transactionService.saveTransaction(transaction);
+                    savedTransactions.add(saved);
+                } catch (Exception e) {
+                    logger.error("Błąd przy zapisywaniu transakcji", e);
+                }
+            }
+
+            logger.business().info("Zaimportowano {} transakcji z wyciągu: {} ({})",
+                savedTransactions.size(), statement.getFileName(), statement.getAccountNumber());
+
+            // Oznaczamy wyciąg jako przetworzony
+            markAsProcessed(statementId);
+
+            return savedTransactions;
+        } catch (Exception e) {
+            logger.error("Błąd przy importowaniu transakcji z wyciągu", e);
+            return List.of();
+        }
+    }
+
+    /**
+     * Importuje pojedynczą transakcję
+     */
+    public Transaction importTransaction(Long statementId, Transaction transaction) {
+        BankStatement statement = getBankStatementById(statementId);
+        if (statement != null) {
+            transaction.setBankStatement(statement);
+            return transactionService.saveTransaction(transaction);
+        }
+        return null;
+    }
 }
+
+
 

@@ -192,6 +192,26 @@ public class BankStatementUploadView extends VerticalLayout {
     }
 
     private Button createProcessButton(BankStatement statement) {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setSpacing(true);
+
+        // Przycisk Import Transakcji
+        Button importButton = new Button("Importuj Transakcje", VaadinIcon.DOWNLOAD.create());
+        importButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
+        importButton.addClickListener(clickEvent -> {
+            try {
+                var transactions = bankStatementService.importTransactionsFromStatement(statement.getId());
+                Notification.show("✅ Zaimportowano " + transactions.size() + " transakcji!",
+                    3000, Notification.Position.BOTTOM_CENTER);
+                refreshGrid();
+            } catch (Exception e) {
+                logger.error("Błąd przy imporcie transakcji", e);
+                Notification.show("❌ Błąd przy imporcie transakcji: " + e.getMessage(),
+                    3000, Notification.Position.BOTTOM_CENTER);
+            }
+        });
+
+        // Przycisk Oznacz jako przetworzony
         Button button = new Button(statement.isProcessed() ? "Przetworzony" : "Oznacz jako przetworzony");
         button.setIcon(VaadinIcon.CHECK.create());
         button.addThemeVariants(ButtonVariant.LUMO_SMALL);
@@ -205,7 +225,9 @@ public class BankStatementUploadView extends VerticalLayout {
             Notification.show("✅ Wyciąg został oznaczony jako przetworzony!", 2000, Notification.Position.BOTTOM_CENTER);
             refreshGrid();
         });
-        return button;
+
+        buttonLayout.add(importButton, button);
+        return importButton; // Zwróć przycisk importu jako główny
     }
 
     private void refreshGrid() {

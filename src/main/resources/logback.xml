@@ -145,9 +145,6 @@
         <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
-            <appender-ref ref="BUSINESS_FILTER"/>
-            <appender-ref ref="PERFORMANCE_FILTER"/>
-            <appender-ref ref="SECURITY_FILTER"/>
         </root>
     </springProfile>
 
@@ -155,9 +152,6 @@
     <springProfile name="prod,production">
         <root level="INFO">
             <appender-ref ref="FILE"/>
-            <appender-ref ref="BUSINESS_FILTER"/>
-            <appender-ref ref="PERFORMANCE_FILTER"/>
-            <appender-ref ref="SECURITY_FILTER"/>
         </root>
     </springProfile>
 
