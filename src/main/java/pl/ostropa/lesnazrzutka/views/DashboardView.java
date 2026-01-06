@@ -137,7 +137,15 @@ public class DashboardView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.navigate("accounts"))
         );
 
-        panel.add(title, new Paragraph("Wybierz akcję:"), addStatementButton, viewHistoryButton, viewAccountsButton);
+        Button viewTransactionsButton = new Button("Przeglądaj Wpłaty");
+        viewTransactionsButton.setIcon(VaadinIcon.MONEY.create());
+        viewTransactionsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        viewTransactionsButton.setWidth("100%");
+        viewTransactionsButton.addClickListener(event ->
+            getUI().ifPresent(ui -> ui.navigate("transactions"))
+        );
+
+        panel.add(title, new Paragraph("Wybierz akcję:"), addStatementButton, viewHistoryButton, viewAccountsButton, viewTransactionsButton);
         return panel;
     }
 

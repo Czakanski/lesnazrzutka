@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "bank_statements")
@@ -56,5 +57,8 @@ public class BankStatement {
 
     @Column
     private String accountNumber;
+
+    @OneToMany(mappedBy = "bankStatement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
 }
 
