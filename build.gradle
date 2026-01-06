@@ -31,6 +31,17 @@ dependencies {
     implementation 'org.springframework.security:spring-security-aspects'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    // Logging - SLF4J with Logback
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'ch.qos.logback:logback-core'
+    // Logback extensions for JSON logging
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+    implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
     runtimeOnly 'com.h2database:h2'
     developmentOnly 'com.vaadin:vaadin-dev'
     implementation 'com.vaadin:vaadin-spring-boot-starter'

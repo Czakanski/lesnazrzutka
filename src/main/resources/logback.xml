@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Property for log directory -->
+    <property name="LOG_DIR" value="logs"/>
+    <property name="LOG_FILE" value="${LOG_DIR}/lesnazrzutka"/>
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- File Appender - All logs -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.log</file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{CORRELATION_ID}] [%X{LOG_TYPE}] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>300MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Business Logs Only -->
+    <appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/business.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{CORRELATION_ID}] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/business.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Business Logs Filter -->
+    <appender name="BUSINESS_FILTER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/business-only.log</file>
+        <filter class="ch.qos.logback.classic.filter.MDCFilter">
+            <MDCKey>LOG_TYPE</MDCKey>
+            <MDCValuePattern>BUSINESS</MDCValuePattern>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{CORRELATION_ID}] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/business-only.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Performance Logs Only -->
+    <appender name="PERFORMANCE_FILTER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/performance-only.log</file>
+        <filter class="ch.qos.logback.classic.filter.MDCFilter">
+            <MDCKey>LOG_TYPE</MDCKey>
+            <MDCValuePattern>PERFORMANCE</MDCValuePattern>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{CORRELATION_ID}] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/performance-only.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Security Logs Only -->
+    <appender name="SECURITY_FILTER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/security.log</file>
+        <filter class="ch.qos.logback.classic.filter.MDCFilter">
+            <MDCKey>LOG_TYPE</MDCKey>
+            <MDCValuePattern>SECURITY</MDCValuePattern>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{CORRELATION_ID}] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/security.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Memory Monitor Logs -->
+    <appender name="MEMORY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/memory.log</file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/memory.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Root Logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="BUSINESS_FILTER"/>
+        <appender-ref ref="PERFORMANCE_FILTER"/>
+        <appender-ref ref="SECURITY_FILTER"/>
+    </root>
+
+    <!-- Memory Monitor Logger -->
+    <logger name="pl.ostropa.lesnazrzutka.monitoring.MemoryMonitor" level="INFO">
+        <appender-ref ref="MEMORY"/>
+    </logger>
+
+    <!-- Application Loggers -->
+    <logger name="pl.ostropa.lesnazrzutka.service" level="INFO"/>
+    <logger name="pl.ostropa.lesnazrzutka.controller" level="INFO"/>
+    <logger name="pl.ostropa.lesnazrzutka.views" level="INFO"/>
+
+    <!-- Spring Framework Loggers -->
+    <logger name="org.springframework.boot" level="INFO"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <logger name="org.springframework.web" level="WARN"/>
+
+    <!-- Vaadin Loggers -->
+    <logger name="com.vaadin" level="WARN"/>
+
+    <!-- Development Profile -->
+    <springProfile name="dev,development">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="BUSINESS_FILTER"/>
+            <appender-ref ref="PERFORMANCE_FILTER"/>
+            <appender-ref ref="SECURITY_FILTER"/>
+        </root>
+    </springProfile>
+
+    <!-- Production Profile -->
+    <springProfile name="prod,production">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="BUSINESS_FILTER"/>
+            <appender-ref ref="PERFORMANCE_FILTER"/>
+            <appender-ref ref="SECURITY_FILTER"/>
+        </root>
+    </springProfile>
+
+</configuration>
+
