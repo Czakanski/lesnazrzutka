@@ -136,17 +136,31 @@ public class MemoryMonitor {
         try {
             OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
             double systemLoad = osBean.getSystemLoadAverage();
-            double processCpuUsage = osBean.getProcessCpuUsage();
             int availableProcessors = osBean.getAvailableProcessors();
 
-            logger.performance().info("System Status - CPU Usage: {}%, System Load: {}, Processors: {}",
-                    String.format("%.2f", processCpuUsage * 100),
+            // Get memory metrics as well
+            MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+            long heapUsed = memoryBean.getHeapMemoryUsage().getUsed();
+            long heapMax = memoryBean.getHeapMemoryUsage().getMax();
+            double heapPercent = (heapUsed * 100.0) / heapMax;
+
+            logger.performance().info("System Status - Load: {}, Processors: {}, Heap: {}% ({}/{}MB)",
+                    String.format("%.2f", systemLoad),
+                    availableProcessors,
+                    String.format("%.1f", heapPercent),
+                    heapUsed / (1024 * 1024),
+                    heapMax / (1024 * 1024));
+
+            // Alert on high system load
+            if (systemLoad > availableProcessors) {
+                logger.warn("⚠️ HIGH SYSTEM LOAD: {} (above {} processors)",
                     String.format("%.2f", systemLoad),
                     availableProcessors);
+            }
 
-            // Alert on high CPU
-            if (processCpuUsage > 0.8) {
-                logger.warn("⚠️ HIGH CPU USAGE: {}%", String.format("%.2f", processCpuUsage * 100));
+            // Alert on high heap usage
+            if (heapPercent > 85.0) {
+                logger.warn("⚠️ HIGH HEAP USAGE: {}%", String.format("%.1f", heapPercent));
             }
 
         } catch (Exception e) {

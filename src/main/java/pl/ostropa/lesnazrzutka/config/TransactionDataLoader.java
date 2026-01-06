@@ -1,6 +1,5 @@
 package pl.ostropa.lesnazrzutka.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.ostropa.lesnazrzutka.model.Transaction;
@@ -10,32 +9,30 @@ import java.time.LocalDateTime;
 
 /**
  * Ładuje testowe dane do bazy danych przy uruchomieniu aplikacji
- * Można wyłączyć jeśli nie chcemy testowych danych
  */
 @Component
-@RequiredArgsConstructor
 public class TransactionDataLoader implements CommandLineRunner {
 
     private final TransactionService transactionService;
 
+    public TransactionDataLoader(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
     @Override
     public void run(String... args) throws Exception {
-        // Sprawdź czy już istnieją transakcje
         if (!transactionService.getAllTransactions().isEmpty()) {
-            return; // Nie ładuj ponownie
+            return;
         }
 
         try {
-            // OPTIMIZATION: Load testowe data in a controlled way
             createTestTransactions();
         } finally {
-            // Wyczyść stare dane jeśli load się nie powiódł
-            // GC będzie mógł działać efektywniej
+            // GC will clean up
         }
     }
 
     private void createTestTransactions() {
-        // OPTIMIZATION: Create transactions and let GC clean them up
         // Konto 1: PL61 1060 0076 0000 6362 1311 0001
         transactionService.saveTransaction(new Transaction()
                 .setFromAccountNumber("PL61106000760000636213110001")

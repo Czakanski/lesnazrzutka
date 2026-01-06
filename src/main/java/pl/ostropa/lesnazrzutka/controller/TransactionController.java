@@ -1,6 +1,5 @@
 package pl.ostropa.lesnazrzutka.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ostropa.lesnazrzutka.model.Transaction;
@@ -12,11 +11,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/transactions")
-@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class TransactionController {
 
     private final TransactionService transactionService;
+
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     /**
      * Pobiera wszystkie transakcje

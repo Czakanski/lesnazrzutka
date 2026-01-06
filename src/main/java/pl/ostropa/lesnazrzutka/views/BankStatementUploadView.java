@@ -16,11 +16,11 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.ostropa.lesnazrzutka.model.BankStatement;
 import pl.ostropa.lesnazrzutka.service.BankStatementService;
+import pl.ostropa.lesnazrzutka.logging.AppLogger;
 
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
@@ -28,10 +28,10 @@ import java.util.List;
 
 @Route("history")
 @PageTitle("Historia Wyciągów Bankowych")
-@Slf4j
 @SuppressWarnings("removal")
 public class BankStatementUploadView extends VerticalLayout {
 
+    private static final AppLogger logger = AppLogger.getLogger(BankStatementUploadView.class);
     private final BankStatementService bankStatementService;
     private final Grid<BankStatement> grid = new Grid<>(BankStatement.class, false);
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -113,7 +113,7 @@ public class BankStatementUploadView extends VerticalLayout {
                 refreshGrid();
 
             } catch (Exception e) {
-                log.error("Error uploading file", e);
+                logger.error("Error uploading file", e);
                 Notification.show("❌ Błąd podczas wrzucania pliku: " + e.getMessage(), 3000, Notification.Position.TOP_CENTER);
             }
         });

@@ -14,22 +14,22 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.access.annotation.Secured;
 import pl.ostropa.lesnazrzutka.model.BankStatement;
 import pl.ostropa.lesnazrzutka.service.BankStatementService;
+import pl.ostropa.lesnazrzutka.logging.AppLogger;
 
 import java.io.InputStream;
 
 @Route("add-statement")
 @PageTitle("Dodaj Wyciąg Bankowy")
 @Secured("ROLE_ADMIN")
-@Slf4j
 @SuppressWarnings("removal")
 public class AddBankStatementView extends VerticalLayout {
 
+    private static final AppLogger logger = AppLogger.getLogger(AddBankStatementView.class);
     private final BankStatementService bankStatementService;
 
     public AddBankStatementView(BankStatementService bankStatementService) {
@@ -116,7 +116,7 @@ public class AddBankStatementView extends VerticalLayout {
             try {
                 handleFileUpload(buffer, accountNumberField, balanceField, descriptionField);
             } catch (Exception e) {
-                log.error("Error uploading statement", e);
+                logger.error("Error uploading statement", e);
                 Notification.show("❌ Błąd: " + e.getMessage(), 3000, Notification.Position.TOP_CENTER);
             }
         });
@@ -186,7 +186,7 @@ public class AddBankStatementView extends VerticalLayout {
                 Thread.sleep(1000);
                 ui.navigate(DashboardView.class);
             } catch (InterruptedException e) {
-                log.error("Error redirecting", e);
+                logger.error("Error redirecting", e);
             }
         });
     }

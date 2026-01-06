@@ -1,6 +1,5 @@
 package pl.ostropa.lesnazrzutka.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.ostropa.lesnazrzutka.model.Transaction;
 import pl.ostropa.lesnazrzutka.repository.TransactionRepository;
@@ -13,11 +12,14 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Service
-@RequiredArgsConstructor
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private static final AppLogger logger = AppLogger.getLogger(TransactionService.class);
+
+    public TransactionService(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     public Transaction saveTransaction(Transaction transaction) {
         long startTime = System.currentTimeMillis();

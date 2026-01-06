@@ -1,6 +1,5 @@
 package pl.ostropa.lesnazrzutka.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.ostropa.lesnazrzutka.model.BankStatement;
 import pl.ostropa.lesnazrzutka.repository.BankStatementRepository;
@@ -10,10 +9,13 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @Service
-@RequiredArgsConstructor
 public class BankStatementService {
 
     private final BankStatementRepository bankStatementRepository;
+
+    public BankStatementService(BankStatementRepository bankStatementRepository) {
+        this.bankStatementRepository = bankStatementRepository;
+    }
 
     public BankStatement saveBankStatement(BankStatement statement) {
         return bankStatementRepository.save(statement);
