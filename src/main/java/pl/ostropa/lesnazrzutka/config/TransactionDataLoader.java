@@ -136,10 +136,5 @@ public class TransactionDataLoader implements CommandLineRunner {
                 .setCreatedDate(LocalDateTime.now())
         );
     }
-        transaction.setReference(reference);
-        transaction.setCurrency("PLN");
-        transaction.setCreatedDate(LocalDateTime.now());
-        return transaction;
-    }
 }
 
