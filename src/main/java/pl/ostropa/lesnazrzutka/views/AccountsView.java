@@ -63,7 +63,7 @@ public class AccountsView extends VerticalLayout {
     }
 
     private void refreshGrid() {
-        var statements = bankStatementService.getAllBankStatements()
+        var statements = bankStatementService.getAccountsFromTransactions()
                 .stream()
                 .filter(s -> s.getAccountNumber() != null && s.getAccountBalance() != null)
                 .collect(Collectors.toList());

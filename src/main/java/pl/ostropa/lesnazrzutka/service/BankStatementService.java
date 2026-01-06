@@ -117,6 +117,32 @@ public class BankStatementService {
         }
         return null;
     }
+
+    /**
+     * Pobiera unikalne konta z transakcji
+     * @return Lista BankStatement z danymi kontami z transakcji
+     */
+    public List<BankStatement> getAccountsFromTransactions() {
+        try {
+            // Pobierz wszystkie wyciągi
+            List<BankStatement> allStatements = bankStatementRepository.findAll();
+
+            // Pogrupuj po numerze konta i aggreguj dane
+            var accountMap = new java.util.HashMap<String, BankStatement>();
+
+            for (BankStatement statement : allStatements) {
+                // Jeśli wyciąg ma numer konta, użyj go
+                if (statement.getAccountNumber() != null && !statement.getAccountNumber().isEmpty()) {
+                    accountMap.putIfAbsent(statement.getAccountNumber(), statement);
+                }
+            }
+
+            return new ArrayList<>(accountMap.values());
+        } catch (Exception e) {
+            logger.error("Błąd przy pobieraniu kont z transakcji", e);
+            return new ArrayList<>();
+        }
+    }
 }
 
 
