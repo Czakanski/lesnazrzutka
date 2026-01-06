@@ -1,5 +1,4 @@
 package pl.ostropa.lesnazrzutka.service;
-package pl.ostropa.lesnazrzutka.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
