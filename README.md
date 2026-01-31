@@ -1,3 +1,20 @@
+Uwaga:
+
+To jest repozytorium aplikacji Lesna zrzutka - System Zarządzania Wyciągami Bankowymi.
+z wersją zgłoszoną do oceny:
+
+kontynuacja, która bywa unstable ale jest i będzie rozwijana znajduje się tutaj:
+https://github.com/Czakanski/propertyflow
+
+to repozytorium i railway jest na potrzeby "stabilności".
+
+pozdrawiam serdecznie
+Dawid
+
+
+
+
+
 # 🌲 Leśna zrzutka - System Zarządzania Wyciągami Bankowymi
 
 Nowoczesna aplikacja webowa do zarządzania wyciągami bankowymi, zbudowana na Spring Boot i Vaadin.

@@ -4,9 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("BankStatement - Testy modelu")
@@ -54,23 +51,13 @@ class BankStatementTest {
     @DisplayName("Powinno ustawić saldo")
     void testSetAndGetAccountBalance() {
         // Act
-        BigDecimal balance = new BigDecimal("5000.00");
+        Double balance = 5000.00;
         bankStatement.setAccountBalance(balance);
 
         // Assert
         assertEquals(balance, bankStatement.getAccountBalance());
     }
 
-    @Test
-    @DisplayName("Powinno ustawić datę transakcji")
-    void testSetAndGetTransactionDate() {
-        // Act
-        LocalDate date = LocalDate.of(2026, 1, 5);
-        bankStatement.setTransactionDate(date);
-
-        // Assert
-        assertEquals(date, bankStatement.getTransactionDate());
-    }
 
     @Test
     @DisplayName("Powinno ustawić nazwę pliku")
@@ -87,68 +74,43 @@ class BankStatementTest {
     @DisplayName("Powinno poprawnie sformatować saldo w PLN")
     void testBalanceFormatting() {
         // Arrange
-        bankStatement.setAccountBalance(new BigDecimal("1234.56"));
+        bankStatement.setAccountBalance(1234.56);
 
         // Act
-        BigDecimal balance = bankStatement.getAccountBalance();
+        Double balance = bankStatement.getAccountBalance();
 
         // Assert
-        assertEquals(new BigDecimal("1234.56"), balance);
-        assertEquals(2, balance.scale());
+        assertEquals(1234.56, balance);
     }
 
     @Test
     @DisplayName("Powinno obsługować ujemne saldo")
     void testNegativeBalance() {
         // Act
-        bankStatement.setAccountBalance(new BigDecimal("-500.00"));
+        bankStatement.setAccountBalance(-500.00);
 
         // Assert
-        assertTrue(bankStatement.getAccountBalance().compareTo(BigDecimal.ZERO) < 0);
+        assertTrue(bankStatement.getAccountBalance() < 0);
     }
 
     @Test
     @DisplayName("Powinno obsługować zero saldo")
     void testZeroBalance() {
         // Act
-        bankStatement.setAccountBalance(BigDecimal.ZERO);
+        bankStatement.setAccountBalance(0.00);
 
         // Assert
-        assertEquals(0, bankStatement.getAccountBalance().compareTo(BigDecimal.ZERO));
+        assertEquals(0.00, bankStatement.getAccountBalance());
     }
 
     @Test
     @DisplayName("Powinno obsługować duże salda")
     void testLargeBalance() {
         // Act
-        bankStatement.setAccountBalance(new BigDecimal("999999999.99"));
+        bankStatement.setAccountBalance(999999999.99);
 
         // Assert
-        assertTrue(bankStatement.getAccountBalance().compareTo(new BigDecimal("999999999.99")) == 0);
-    }
-
-    @Test
-    @DisplayName("Powinno obsługować daty z przeszłości")
-    void testPastDate() {
-        // Act
-        LocalDate pastDate = LocalDate.of(2020, 1, 1);
-        bankStatement.setTransactionDate(pastDate);
-
-        // Assert
-        assertEquals(pastDate, bankStatement.getTransactionDate());
-        assertTrue(pastDate.isBefore(LocalDate.now()));
-    }
-
-    @Test
-    @DisplayName("Powinno obsługować przyszłe daty")
-    void testFutureDate() {
-        // Act
-        LocalDate futureDate = LocalDate.of(2030, 12, 31);
-        bankStatement.setTransactionDate(futureDate);
-
-        // Assert
-        assertEquals(futureDate, bankStatement.getTransactionDate());
-        assertTrue(futureDate.isAfter(LocalDate.now()));
+        assertEquals(999999999.99, bankStatement.getAccountBalance());
     }
 
     @Test
@@ -160,7 +122,7 @@ class BankStatementTest {
 
         // Assert
         assertEquals(validAccountNumber, bankStatement.getAccountNumber());
-        assertTrue(validAccountNumber.length() >= 26);
+        assertEquals(32, validAccountNumber.length()); // 26 cyfr + 3 spacje
     }
 
     @Test
@@ -168,11 +130,11 @@ class BankStatementTest {
     void testNullableFields() {
         // Act
         bankStatement.setFileName(null);
-        bankStatement.setTransactionDate(null);
+        bankStatement.setDescription(null);
 
         // Assert
         assertNull(bankStatement.getFileName());
-        assertNull(bankStatement.getTransactionDate());
+        assertNull(bankStatement.getDescription());
     }
 
     @Test
